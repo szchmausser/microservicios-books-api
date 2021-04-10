@@ -61,7 +61,7 @@ class BookController extends Controller
 //        $book = new Book($request->all());
 //        $book->save(); //save funciona con instancias de modelo
 
-        return $this->SuccessResponse($book, 'Book successfully saved',Response::HTTP_CREATED);
+        return $this->SuccessResponse($book, Response::HTTP_CREATED);
     }
 
     public function show(Book $book): \Illuminate\Http\JsonResponse
@@ -100,14 +100,14 @@ class BookController extends Controller
 //        $book->title = 'modificado posterior'; //fill permite alterar la estructura del objeto antes de almacenarlo en bd
 //        $book->save(); //si hemos modificado el objeto, ahora necesitamos guardarlo
 
-        return $this->SuccessResponse($book, 'Book successfully updated');
+        return $this->SuccessResponse($book);
     }
 
     public function destroy(Book $book){
 
         $book->delete();
 
-        return $this->SuccessResponse($book, 'Book successfully deleted');
+        return $this->SuccessResponse($book);
     }
 
 }
