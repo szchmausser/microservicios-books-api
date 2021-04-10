@@ -3,20 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
 class BookController extends Controller
 {
+    use ApiResponser;
+
     public function index(): \Illuminate\Http\JsonResponse
     {
         $books = Book::all();
-        return response()->json(['data' => ['books' => $books]]);
-    }
 
-    public function show(Book $book): \Illuminate\Http\JsonResponse
-    {
-        return response()->json(['data' => ['book' => $book]]);
+        return $this->SuccessResponse($books);
     }
 
     public function store(Request $request): \Illuminate\Http\JsonResponse
@@ -61,7 +61,12 @@ class BookController extends Controller
 //        $book = new Book($request->all());
 //        $book->save(); //save funciona con instancias de modelo
 
-        return response()->json(['data' => ['book' => $book, 'message' => 'Book successfully saved']], 201);
+        return $this->SuccessResponse($book, 'Book successfully saved',Response::HTTP_CREATED);
+    }
+
+    public function show(Book $book): \Illuminate\Http\JsonResponse
+    {
+        return $this->SuccessResponse($book);
     }
 
     public function update(Book $book, Request $request): \Illuminate\Http\JsonResponse
@@ -95,14 +100,14 @@ class BookController extends Controller
 //        $book->title = 'modificado posterior'; //fill permite alterar la estructura del objeto antes de almacenarlo en bd
 //        $book->save(); //si hemos modificado el objeto, ahora necesitamos guardarlo
 
-        return response()->json(['data' => ['book' => $book, 'message' => 'Book successfully updated']], 200);
+        return $this->SuccessResponse($book, 'Book successfully updated');
     }
 
     public function destroy(Book $book){
 
         $book->delete();
 
-        return response()->json(['data' => ['book' => $book, 'message' => 'Book successfully deleted']], 200);
+        return $this->SuccessResponse($book, 'Book successfully deleted');
     }
 
 }
