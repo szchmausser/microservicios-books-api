@@ -12,35 +12,19 @@ class BookController extends Controller
 {
     use ApiResponser;
 
-    public function index(): \Illuminate\Http\JsonResponse
+    public function index()
     {
         $books = Book::all();
-
         return $this->SuccessResponse($books);
     }
 
-    public function store(Request $request): \Illuminate\Http\JsonResponse
+    public function store(Request $request)
     {
-
         $rules = [
-            'title' => [
-                'required',
-                'string',
-            ],
-            'description' => [
-                'required',
-                'string',
-            ],
-            'price' => [
-                'required',
-                'integer',
-                'min:20',
-            ],
-            'author_id' => [
-                'required',
-                'integer',
-                'min:1',
-            ],
+            'title' => ['required', 'string',],
+            'description' => ['required', 'string',],
+            'price' => ['required', 'integer', 'min:20',],
+            'author_id' => ['required', 'integer', 'min:1',],
         ];
 
         //Validar y enviar mensajes de error manualmente si falla | https://medium.com/@rosselli00/validating-in-laravel-7e88bbe1b627
@@ -69,24 +53,13 @@ class BookController extends Controller
         return $this->SuccessResponse($book);
     }
 
-    public function update(Book $book, Request $request): \Illuminate\Http\JsonResponse
+    public function update(Book $book, Request $request)
     {
-
         $rules = [
-            'title' => [
-                'string',
-            ],
-            'description' => [
-                'string',
-            ],
-            'price' => [
-                'integer',
-                'min:1',
-            ],
-            'author_id' => [
-                'integer',
-                'min:1',
-            ],
+            'title' => ['string',],
+            'description' => ['string',],
+            'price' => ['integer', 'min:1',],
+            'author_id' => ['integer', 'min:1',],
         ];
 
         Validator::make($request->all(), $rules)->validate();
@@ -103,10 +76,9 @@ class BookController extends Controller
         return $this->SuccessResponse($book);
     }
 
-    public function destroy(Book $book){
-
+    public function destroy(Book $book)
+    {
         $book->delete();
-
         return $this->SuccessResponse($book);
     }
 
